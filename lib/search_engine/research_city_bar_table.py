@@ -34,7 +34,6 @@ def get_information_bar(input_user: str)->list:
     bar_name = get_bar_name(city_name)
     if bar_name==[]:
         city_name_corrected=rectify_city_name(city_name)
-        print(city_name_corrected)
         bar_name = get_bar_name(city_name_corrected)
     return bar_name[0]
     
