@@ -9,7 +9,7 @@ from lib.sqlite_db.functions import *
 from lib.model_IA.gpt.chat_gpt import get_response
 from lib.user_interaction.functions import *
 from lib.model_IA.text_to_speech.elevenlabs import text_to_speech
-from lib.model_IA.bert.camenBert_ner import get_city_name
+
 
 openai.api_key = os.getenv('API_GPT_PHOEBE')
 
