@@ -9,7 +9,7 @@ def get_city_name(input_user: str) -> list:
     using annotated data for this task. This means it has been trained to identify and classify named entities in French texts.
     
     user_input : user request :string
-    return : string
+    return : list
     """
     tokenizer = AutoTokenizer.from_pretrained("Jean-Baptiste/camembert-ner")
     model = AutoModelForTokenClassification.from_pretrained("Jean-Baptiste/camembert-ner")
