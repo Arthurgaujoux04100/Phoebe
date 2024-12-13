@@ -15,6 +15,6 @@ def get_city_name(input_user: str) -> list:
     model = AutoModelForTokenClassification.from_pretrained("Jean-Baptiste/camembert-ner")
     nlp = pipeline('ner', model=model, tokenizer=tokenizer, aggregation_strategy="simple")
     city = nlp(input_user)
-    return [loc['word'] for loc in city if loc['entity_group']=='LOC'] # can have city and region, we want to try both to get the city
+    return [loc['word'].lower().capitalize() for loc in city if loc['entity_group']=='LOC'] # can have city and region, we want to try both to get the city
 
 
