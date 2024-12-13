@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from transformers import pipeline
 
-def get_city_name(input_user: str) -> str:
+def get_city_name(input_user: str) -> list:
     """
     get the city from the input_user
     using camenBert model. based on bert model finetuned for french lexique => camenBert
