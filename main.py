@@ -2,12 +2,14 @@ import openai
 import argparse
 import sqlite3
 import os
+import argparse
 from elevenlabs import ElevenLabs, VoiceSettings
 from elevenlabs import play
 from lib.sqlite_db.functions import *
 from lib.model_IA.gpt.chat_gpt import get_response
 from lib.user_interaction.functions import *
 from lib.model_IA.text_to_speech.elevenlabs import text_to_speech
+from lib.model_IA.bert.camenBert_ner import get_city_name
 
 openai.api_key = os.getenv('API_GPT_PHOEBE')
 
@@ -32,7 +34,7 @@ def main(temperature: float, token: int):
         if get_summary(user_input):
             flag_prompt = 2
             flag_resume = True
-
+            
         prompt = prompt_choice(flag_prompt)
         history_interaction = get_history_interaction(session=session, get_summary_flag=flag_resume)
         response = get_response(user_input, temperature, token, prompt, history_interaction)
