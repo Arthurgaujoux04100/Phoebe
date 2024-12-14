@@ -31,11 +31,9 @@ def get_information_bar(input_user: str)->list:
     input_user: user question
     """
     city_name = get_city_name(input_user)
-    bar_name = get_bar_name(city_name)
+    bar_name = get_bar_info(city_name)
     if bar_name==[]:
         city_name_corrected=rectify_city_name(city_name)
-        bar_name = get_bar_name(city_name_corrected)
+        bar_name = get_bar_info(city_name_corrected)
     return bar_name[0]
     
-
-
