@@ -35,7 +35,7 @@ def main(temperature: float, token: int):
             flag_prompt = 2
             flag_resume = True
             
-        prompt = prompt_choice(flag_prompt)
+      #  prompt = prompt_choice(flag_prompt)
         history_interaction = get_history_interaction(session=session, get_summary_flag=flag_resume)
         response = get_response(user_input, temperature, token, prompt, history_interaction)
         insert_chat(user_input, response, session)

@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from lib.postgresSQL.connexion import connexion_postresql
 
 
-def get_bar_info(city_user:list)->dict:
+def retrieve_bar_info_by_city(city_user:list)->dict:
     """
     get the bar name from the postgresql database
     to_dict(orient='records'): This method converts each row of the DataFrame into a dictionary, where the keys are the column names and the values are the corresponding values of the row.
