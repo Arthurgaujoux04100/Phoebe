@@ -1,10 +1,11 @@
 from elevenlabs import ElevenLabs, VoiceSettings
+from lib.processing.initialization import set_initialisation_variables, get_api_key
 
 def text_to_speech():
     """
     text_to_speech with ElevenLabs with charlotte voice
     """
-    client = ElevenLabs(api_key=os.getenv('ELEVENLABS_API_KEY'))
+    client = ElevenLabs(api_key=get_api_key('ELEVENLABS_API_KEY'))
 
     client.voices.edit_settings(
     voice_id="XB0fDUnXU5powFXDhCwa",

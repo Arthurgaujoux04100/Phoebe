@@ -11,3 +11,4 @@ lib/postgresSQL/__pycache__/
 lib/search_engine/__pycache__/
 lib/sqlite_db/__pycache__/
 lib/user_interaction/__pycache__/
+lib/model_IA/text_to_speech/__pycache__/
