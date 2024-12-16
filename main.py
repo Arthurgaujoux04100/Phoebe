@@ -2,20 +2,19 @@ import openai
 import argparse
 import sqlite3
 import os
-import argparse
-from elevenlabs import ElevenLabs, VoiceSettings
-from elevenlabs import play
-from lib.sqlite_db.functions import *
-from lib.model_IA.gpt.chat_gpt import process_answer
-from lib.user_interaction.functions import *
+from elevenlabs import ElevenLabs, VoiceSettings, play
+from lib.sqlite_db.functions import initialize_db, insert_chat, delete_db
+from lib.user_interaction.functions import switch_session, shutdown_pheobe, wrong_imput_user, get_summary
 #from lib.model_IA.text_to_speech.elevenlabs import text_to_speech
+from lib.processing.interaction_processing import get_history_interaction, process_answer
+from lib.processing.initialization import set_initialisation_variables, get_api_key
 
 
-openai.api_key = os.getenv('API_GPT_PHOEBE')
+openai.api_key = get_api_key('API_GPT_PHOEBE')
 
 def main(temperature: float, token: int):
     print()
-   # play(text_to_speech())
+#    play(text_to_speech())
     print("""Démarrage de la conversation avec l'IA Phoebé. Dites 'autre analyse' pour ouvrir une autre session, avoir le résumé pour avoir le résumé complet de l'interaction, 'merci' ou 'stop' pour terminer la session.""")
     initialize_db()
     flag_prompt, session, flag_resume = set_initialisation_variables()

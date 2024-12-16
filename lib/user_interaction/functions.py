@@ -1,14 +1,6 @@
 from lib.sqlite_db.functions import *
 import os
 
-def set_initialisation_variables():
-    """
-    initialisation of variables
-    """
-    flag_prompt = 0
-    session = 0
-    flag_resume = False
-    return flag_prompt, session, flag_resume
 
 def switch_session(user_input: str)->bool:
     """
@@ -36,24 +28,6 @@ def wrong_imput_user(user_input:str)->bool:
     if user_input=='':
         print("j'ai pas reçu de question de votre part, veuillez recommencer")
         return True
-
-def get_history_interaction(session: int, get_summary_flag: bool)->str:
-    """
-    get the interaction history in a string to send it to gpt
-    get_summary_flag: flag
-    """
-    if get_last_query(session)==None:
-        history_interaction =""
-        return history_interaction
-    else:
-        history_interaction = "Voici l'historique de notre conversation :\n"
-        if get_summary_flag==True:
-            for user_input, gpt in get_table():
-                history_interaction += f"Utilisateur: {user_input}\nGPT: {gpt}\n"
-            return history_interaction
-        else:
-            history_interaction += f"Utilisateur: {list(get_last_query(session))[0]}\nGPT: {list(get_last_query(session))[1]}\n"
-            return history_interaction
 
 def get_summary(user_input:str)->bool:
     """
