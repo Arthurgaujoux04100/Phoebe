@@ -1,7 +1,7 @@
 import os
 from rapidfuzz import process, fuzz
 from lib.model_IA.bert.camenBert_ner import get_city_name
-from lib.postgresSQL.table_function import get_bar_name, get_all_french_cities
+from lib.postgresSQL.table_function import retrieve_bar_info_by_city, get_all_french_cities
 
 
 def rectify_city_name(city_name:list)->list:
