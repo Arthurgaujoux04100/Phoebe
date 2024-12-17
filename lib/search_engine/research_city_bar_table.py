@@ -11,9 +11,11 @@ def rectify_city_name(city_name:list)->list:
     scorer: This parameter allows you to specify a custom scoring function to determine how similar two strings are.
     fuzz.token_set_ratio: This is a specific scoring function provided by the fuzzywuzzy (or rapidfuzz) library.
     It calculates the similarity between two strings by considering the set of tokens (words) in each string.
-    It is particularly useful when the order of words doesn't matter, as it ignores duplicate words and focuses on the unique set of words in each string.
+    It is particularly useful when the order of words doesn't matter, as it ignores duplicate words and focuses on 
+    the unique set of words in each string.
     limit=5:
-    This parameter specifies the maximum number of top matches to return. In this case, it will return up to 5 of the most similar city names from the correct_city_names list.
+    This parameter specifies the maximum number of top matches to return. In this case, it will return up 
+    to 5 of the most similar city names from the correct_city_names list.
     """
     correct_city_names = get_all_french_cities()
     for city in city_name:
@@ -21,19 +23,27 @@ def rectify_city_name(city_name:list)->list:
         best_match = [match for match in matches if match[1] >= 75]  # 80% threshold
         if best_match:
             return [best_match[0][0]]
-    raise ValueError("La ville entrée a une erreur de frappe")
+        return []
             
 
 
 def process_user_input_for_bar_info(input_user: str)->dict:
     """
-    get information related to the bar association
-    input_user: user question
+    Get information related to the bar association.
+    
+    Parameters:
+    input_user (str): The user's question or input string from which the city name will be extracted.
+    
+    Returns:
+    dict: A dictionary containing information about the bar association related to the identified city.
+          If no information is found, an empty dictionary is returned.
     """
     city_name = get_city_name(input_user)
     bar_name = retrieve_bar_info_by_city(city_name)
-    if bar_name==[]:
+    if not bar_name:
         city_name_corrected=rectify_city_name(city_name)
+        if not city_name_corrected:
+            return {}
         bar_name = retrieve_bar_info_by_city(city_name_corrected)
     return bar_name[0]
     
