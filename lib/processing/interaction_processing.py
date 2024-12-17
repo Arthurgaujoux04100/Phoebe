@@ -23,7 +23,7 @@ def get_history_interaction(session: int, get_summary_flag: bool)->str:
             history_interaction += f"Utilisateur: {list(get_last_query(session))[0]}\nGPT: {list(get_last_query(session))[1]}\n"
             return history_interaction
 
-def process_answer(flag_prompt:int, user_input :str, temperature :float, token: int, history_interaction: str)->str:
+def process_answer(flag_prompt:int, user_input :str, temperature :float, token: int, history_interaction: str, rag_info:dict=None)->str:
     """
     Process the answer by selecting the appropriate prompt, replacing placeholders, and calling the chat API.
     
@@ -34,11 +34,7 @@ def process_answer(flag_prompt:int, user_input :str, temperature :float, token: 
     history_interaction: A string containing previous interaction history to include in the prompt.
     """
     prompt_path = select_prompt_path(flag_prompt)
-    if flag_prompt==0:
-        raw_prompt = load_prompt_from_file(prompt_path)
-        rag_info = process_user_input_for_bar_info(user_input)
-        prompt = replace_rag_info_in_prompt(rag_info, raw_prompt)
-    else:
-        prompt = load_prompt_from_file(prompt_path)
-    answer = call_chat_api(user_input, temperature, token, prompt, history_interaction)
-    return answer
+    raw_prompt = load_prompt_from_file(prompt_path)
+    prompt = replace_rag_info_in_prompt(rag_info, raw_prompt) if flag_prompt == 0 else raw_prompt
+    return call_chat_api(user_input, temperature, token, prompt, history_interaction)
+

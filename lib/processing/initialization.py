@@ -1,14 +1,15 @@
 import os
 
 
-def set_initialisation_variables():
+def set_initialisation_variables()->dict:
     """
     initialisation of variables
     """
-    flag_prompt = 0
-    session = 0
-    flag_resume = False
-    return flag_prompt, session, flag_resume
+    return {
+        'flag_prompt': 0,
+        'session': 0,
+        'flag_resume': False
+    }
 
 def get_api_key(api:str)->str:
     """
