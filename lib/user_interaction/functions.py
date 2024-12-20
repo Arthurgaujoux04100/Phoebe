@@ -6,7 +6,6 @@ class SessionManager:
     def __init__(self):
         self._rag_info = None
 
-
     def update_state_flags(self, state: dict, prompt: int, resume: bool, session: int) -> dict:
         """
          Update the session state with new values for 'flag_prompt', 'flag_resume', and 'session'.
@@ -41,7 +40,7 @@ class SessionManager:
             print("Erreur sur l'écriture de la ville, merci de vérifier.")
             return True
 
-    def first_question(self, user_input: str) -> bool:
+    def first_question(self, user_input: str, state: dict) -> bool:
         """
         Update the session state to indicate the first question has been processed.
         first question leads to RAG for the city and first prompt
@@ -56,6 +55,17 @@ class SessionManager:
             if self._rag_info is None: 
                 self._rag_info = process_user_input_for_bar_info(user_input)
             return True
+    
+    def next_question(self, state: dict) -> bool:
+        """
+        Update the session state to indicate the first question has been processed.
+        after the first question leads to other RAG
+
+        Parameters:
+        state (dict): The current state of the session, including 'flag_prompt'.
+        """
+        if state['flag_prompt'] == 1:
+            return True
 
     def switch_session(self, user_input: str, state: dict) -> bool:
         """
@@ -69,7 +79,7 @@ class SessionManager:
         dict: The updated state with incremented session and reset flag_prompt if the condition is met.
         """
         if user_input.lower() in ["autre analyse"]:
-            state = update_state_flags(state, prompt=0, resume=False, session=state['session'] + 1)
+            state = self.update_state_flags(state, prompt=0, resume=False, session=state['session'] + 1)
             self._rag_info = None 
             return True
 
@@ -83,7 +93,7 @@ class SessionManager:
             delete_db()
             return True
 
-    def get_summary(self, user_input: str) -> bool:
+    def get_summary(self, user_input: str, state: dict) -> bool:
         """
         Update the session state to indicate that a summary of all interactions is requested.
 
@@ -95,11 +105,12 @@ class SessionManager:
         dict: The updated state with 'flag_prompt' set to 2 and 'flag_resume' set to True if the condition is met.
         """
         if user_input.lower() in ['avoir le résumé']:
-            state = update_state_flags(state, prompt=2, resume=True, session=state['session'])
+            state = self.update_state_flags(state, prompt=2, resume=True, session=state['session'])
             return True
 
     def handle_user_input(self, user_input: str, state: dict) -> bool:
         """Handle the user input and update the session state accordingly."""
+
         if self.first_question(user_input, state):
             if self.wrong_input_user(user_input, state):
                 return "continue"
@@ -116,6 +127,9 @@ class SessionManager:
             return "break"
 
         if self.get_summary(user_input, state):
+            return "process"
+
+        if self.next_question(state):
             return "process"
 
 

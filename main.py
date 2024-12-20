@@ -4,7 +4,7 @@ import sqlite3
 import os
 from elevenlabs import ElevenLabs, VoiceSettings, play
 from lib.sqlite_db.functions import initialize_db, insert_chat, delete_db
-from lib.user_interaction.functions import switch_session, shutdown_pheobe, wrong_imput_user, get_summary
+from lib.user_interaction.functions import SessionManager
 #from lib.model_IA.text_to_speech.elevenlabs import text_to_speech
 from lib.processing.interaction_processing import get_history_interaction, process_answer
 from lib.processing.initialization import set_initialisation_variables, get_api_key
@@ -21,6 +21,7 @@ def main(temperature: float, token: int):
     print("Bonjour Maître")
     while True:
         user_input = input("Comment puis-je vous aider ?: ")
+        session_manager = SessionManager()
         action = session_manager.handle_user_input(user_input, state)
         if action == "break":
             break
@@ -28,7 +29,7 @@ def main(temperature: float, token: int):
             continue
         elif action =="process":
             bar_info = session_manager.get_rag_info()
-            history_interaction = get_history_interaction(session, state["flag_resume"])
+            history_interaction = get_history_interaction(state["session"], state["flag_resume"])
             response = process_answer(state["flag_prompt"], user_input, temperature, token, history_interaction, bar_info)
             insert_chat(user_input, response, state["session"])
             state = session_manager.update_state_flags(state, prompt=1, resume=False, session=state['session'])
