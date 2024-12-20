@@ -111,6 +111,9 @@ class SessionManager:
     def handle_user_input(self, user_input: str, state: dict) -> bool:
         """Handle the user input and update the session state accordingly."""
 
+        if self.shutdown_pheobe(user_input):
+            return "break"
+
         if self.first_question(user_input, state):
             if self.wrong_input_user(user_input, state):
                 return "continue"
@@ -122,9 +125,6 @@ class SessionManager:
 
         if self.switch_session(user_input, state):
             return "continue"
-
-        if self.shutdown_pheobe(user_input):
-            return "break"
 
         if self.get_summary(user_input, state):
             return "process"
